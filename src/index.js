@@ -43,16 +43,46 @@ import {
     createStore
 } from 'redux';
 
+const INCREMENT = 'INCREMENT';
+const DECREMENT = 'DECREMENT';
 
-function counter(state= {amount: 100}, action){
+function actionIncrement (howMuch=1){
+    
+    return{
+        type: INCREMENT,
+        amount: howMuch
+    }
+}
+
+function actionDecrement (howMuch=1){
+    return {
+        type: DECREMENT,
+        amount: howMuch
+    }
+}
+
+const defaultState = {amount1: 100, amount2: 50}
+
+function counter(state=defaultState , action){
 
         const newState = {...state};
-        if (action.type === 'INCREMENT') {
-            newState.amount = state.amount + 1;
-        } else if (action.type === 'DECREMENT'){
-            newState.amount = state.amount - 1;
-        } else {
+
+        switch(action.type){
+            case INCREMENT:
+                newState.amount = state.amount + action.amount;
+                break;
+            case DECREMENT :
+                newState.amount = state.amount - action.amount;
+                break;
+            default:
+                break;
         }
+        // if (action.type === 'INCREMENT') {
+        //     newState.amount = state.amount + action.amount;
+        // } else if (action.type === 'DECREMENT'){
+        //     newState.amount = state.amount - action.amount;
+        // } else {
+        // }
         return newState;
     //they must return the new version of state.
 }
@@ -69,18 +99,9 @@ store.subscribe(()=> {
 
 //lets give th store some actions to process.
 
-store.dispatch({
-    type: 'asldjf'
-})
-store.dispatch({
-    type: 'INCREMENT'
-});
+store.dispatch(actionIncrement());
 
-store.dispatch({
-    type: 'INCREMENT'
-});
+store.dispatch(actionIncrement(5));
+store.dispatch(actionDecrement(99));
 
-store.dispatch({
-    type: 'DECREMENT'
-});
 
